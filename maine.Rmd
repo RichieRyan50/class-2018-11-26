@@ -21,6 +21,8 @@ library(tidyverse)
 
 #Step 1
 ```{r}
+tibble_1 <- read_rds("tibble_1.rds")
+
 t1 <- read_xlsx("Nov18CVRExportRaw-1.xlsx") 
 t2 <- read_xlsx("Nov18CVRExportRaw-2.xlsx") 
 t3 <- read_xlsx("Nov18CVRExportRaw-3.xlsx")
@@ -38,6 +40,29 @@ mutate(vote_id = row_number())
 ```
 
 
+#Step 2
+```{r}
+choice_to_votes <- function(choice, name){
+  
+  # So, choice_to_votes(x$choice_1, "Golden") would produce a vector of the same
+  # length as choice_1 which has a 1 if the vote was for Golden and a zero
+  # otherwise.
+  
+  str_count(choice, name)
+  
+}
+
+
+x %>% 
+  select(vote_id, precinct, ballot_style, choice_1) %>% 
+  mutate(Poliquin = choice_to_votes(choice_1, "Poliquin")) %>% 
+  mutate(Golden = choice_to_votes(choice_1, "Golden")) %>%
+  mutate(Bond = choice_to_votes(choice_1, "Bond"))
+
+ 
+```
+
+
 #Step 3
 ```{r}
 tibble_2 <- read_rds("tibble_2.rds")
@@ -45,7 +70,11 @@ tibble_2 <- read_rds("tibble_2.rds")
 ggplot(data = tibble_2, aes(x = vote_id, y = cum_votes, color = candidate)) + 
   geom_line() + 
   theme(axis.text.x = element_blank()) + 
-  labs(title = "Cumulative Voting in Maine's Second Congressional District", subtitle = "Representative Polquin Leads Democratic Challenger Golden in First Round", x = "", y = "Cumulative First Round Votes")
+  labs(title = "Cumulative Voting in Maine's Second Congressional District", 
+       subtitle = "Representative Polquin Leads Democratic Challenger Golden in First Round", 
+       x = "", 
+       y = "Cumulative First Round Votes") + 
+  transition_time(vote_id)
 ```
 
 
