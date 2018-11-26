@@ -38,6 +38,17 @@ mutate(vote_id = row_number())
 ```
 
 
+#Step 3
+```{r}
+tibble_2 <- read_rds("tibble_2.rds")
+
+ggplot(data = tibble_2, aes(x = vote_id, y = cum_votes, color = candidate)) + 
+  geom_line() + 
+  theme(axis.text.x = element_blank()) + 
+  labs(title = "Cumulative Voting in Maine's Second Congressional District", subtitle = "Representative Polquin Leads Democratic Challenger Golden in First Round", x = "", y = "Cumulative First Round Votes")
+```
+
+
 #Step 4
 ```{r}
 
