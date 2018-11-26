@@ -7,5 +7,22 @@ output: html_document
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+library(janitor)
+library(devtools)
+library(ggplot2)
+library(gganimate)
+library(dplyr)
+library(readr)
+library(knitr)
+library(tidyverse)
+```
+
+
+#Step 3
+```{r}
+tibble_2 <- read_rds("tibble_2.rds")
+
+ggplot(data = tibble_2, aes(x = vote_id, y = cum_votes, color = candidate)) + 
+  geom_line()
 ```
 
